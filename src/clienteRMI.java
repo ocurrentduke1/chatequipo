@@ -12,7 +12,7 @@ public class clienteRMI {
             String nombre = JOptionPane.showInputDialog("Ingresa tu nombre");
             String nom = nombre;
 
-            Registry rmii = LocateRegistry.getRegistry("192.168.137.115",port);
+            Registry rmii = LocateRegistry.getRegistry("192.168.100.28",port);
             chatServidor servidor = (chatServidor) rmii.lookup("Chat");
             new Thread(new implementacionClienteChat(nom, servidor)).start();
 

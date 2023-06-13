@@ -7,7 +7,7 @@ public class servidorRMI {
     public static void main(String[] args) throws RemoteException{
         int port = 1005;
         try{
-            System.setProperty("java.rmi.server.hostname","192.168.137.115");
+            System.setProperty("java.rmi.server.hostname","192.168.100.28");
             Registry rmi = LocateRegistry.createRegistry(port);
             rmi.rebind("Chat", (Remote) new implementacionChat());
             System.out.println("Servidor Activo");
