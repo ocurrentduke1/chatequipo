@@ -97,16 +97,20 @@ public class interfaz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 ForkJoinPool pool = new ForkJoinPool(10);
-                BigInteger[] seq = new BigInteger[tam];
-                FibonacciFork task = new FibonacciFork(0, tam);
                 long inicio = System.currentTimeMillis();
-                for (int i = 0; i < tam; i++) {
-                    seq[i] = pool.invoke(task);
-                    task = new FibonacciFork(i+1, tam);
+                try {
+                    BigInteger[] seq = new BigInteger[servidor.getTam()];
+                    FibonacciFork task = new FibonacciFork(0, servidor.getTam());
+                    for (int i = 0; i < servidor.getTam(); i++) {
+                        seq[i] = pool.invoke(task);
+                        task = new FibonacciFork(i + 1, servidor.getTam());
+                    }
+                    area1.setText(Arrays.toString(seq));
+                }catch (RemoteException error){
+                    System.out.println(error);
                 }
                 long fin = System.currentTimeMillis();
                 long total = (fin - inicio);
-                area1.setText(Arrays.toString(seq));
                 lbfork.setText("Tiempo forkjoin: " + total + "ms");
             }
         };
@@ -118,9 +122,13 @@ public class interfaz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 long inicio = System.currentTimeMillis();
-                FibonacciExecutorService executorService = new FibonacciExecutorService(tam, threads);
-                List<BigInteger> seq = executorService.execute();
-                area1.setText(Arrays.toString(seq.toArray()));
+                try {
+                    FibonacciExecutorService executorService = new FibonacciExecutorService(servidor.getTam(), threads);
+                    List<BigInteger> seq = executorService.execute();
+                    area1.setText(Arrays.toString(seq.toArray()));
+                }catch (RemoteException error){
+                    System.out.println(error);
+                }
                 long fin = System.currentTimeMillis();
                 long total = (fin - inicio);
                 lbexecuter.setText("Tiempo Executor: " + total + "ms");
