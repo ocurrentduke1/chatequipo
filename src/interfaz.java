@@ -77,17 +77,16 @@ public class interfaz extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 long inicio = System.currentTimeMillis();
                 try {
-                    tam = servidor.getTam();
+                    BigInteger[] seq = new BigInteger[servidor.getTam()];
+                    for (int i = 0; i < servidor.getTam(); i++) {
+                        seq[i] = fibonacci.fibonacciRecursivo(i);
+                    }
+                    area1.setText(Arrays.toString(seq));
                 } catch (RemoteException error) {
                     System.out.println(error);
                 }
-                BigInteger[] seq = new BigInteger[tam];
-                for (int i = 0; i < tam; i++) {
-                    seq[i] = fibonacci.fibonacciRecursivo(i);
-                }
                 long fin = System.currentTimeMillis();
                 long total = fin - inicio;
-                area1.setText(Arrays.toString(seq));
                 lbsecuencial.setText("Tiempo secuencial: " + total + "ms");
             }
         };
@@ -118,12 +117,12 @@ public class interfaz extends JFrame{
             int threads = 10;
             @Override
             public void actionPerformed(ActionEvent e) {
-                FibonacciExecutorService executorService = new FibonacciExecutorService( tam, threads);
                 long inicio = System.currentTimeMillis();
+                FibonacciExecutorService executorService = new FibonacciExecutorService(tam, threads);
                 List<BigInteger> seq = executorService.execute();
+                area1.setText(Arrays.toString(seq.toArray()));
                 long fin = System.currentTimeMillis();
                 long total = (fin - inicio);
-                area1.setText(Arrays.toString(seq.toArray()));
                 lbexecuter.setText("Tiempo Executor: " + total + "ms");
             }
         };
