@@ -8,11 +8,10 @@ import java.rmi.registry.LocateRegistry;
 public class clienteRMI {
     public static void main(String[] args) {
         try{
-            int port = 1005;
             String nombre = JOptionPane.showInputDialog("Ingresa tu nombre");
             String nom = nombre;
 
-            Registry rmii = LocateRegistry.getRegistry("192.168.100.28",port);
+            Registry rmii = LocateRegistry.getRegistry(servidorRMI.HOST, servidorRMI.PORT);
             chatServidor servidor = (chatServidor) rmii.lookup("Chat");
             new Thread(new implementacionClienteChat(nom, servidor)).start();
 

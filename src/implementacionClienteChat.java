@@ -19,6 +19,14 @@ public class implementacionClienteChat extends UnicastRemoteObject implements ch
         System.err.println(mensaje);
     }
 
+    public void sendTam(int tam) throws RemoteException {
+        System.out.println("El cliente definio el tamaño del array");
+    }
+
+    public int getTam() throws RemoteException {
+        return servidor.getTam();
+    }
+
     @Override
     public void run() {
         Scanner s = new Scanner(System.in);
@@ -26,9 +34,9 @@ public class implementacionClienteChat extends UnicastRemoteObject implements ch
 
         while(true){
             mensaje = s.nextLine();
-            try{
-                servidor.mensaje(nombre + ":" + mensaje);
-            }catch(Exception e){
+            try {
+                servidor.setTam(Integer.parseInt(mensaje));
+            } catch(Exception e) {
                 e.printStackTrace();
             }
         }
